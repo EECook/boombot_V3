@@ -1,0 +1,122 @@
+.lobby {
+  position: relative;
+  z-index: 10;
+  padding: 4vh clamp(2rem, 8vw, 6rem) 6vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+/* ---------- Marquee ---------- */
+.marquee-wrap { margin-top: 4vh; }
+
+.marquee {
+  position: relative;
+  padding: clamp(2rem, 5vw, 3.5rem) clamp(2.5rem, 8vw, 6rem);
+  background: linear-gradient(180deg, #241732, #180f22);
+  border: 3px solid var(--gold);
+  border-radius: 18px;
+  box-shadow:
+    0 0 0 6px var(--night-deep),
+    0 20px 60px rgba(0,0,0,0.55),
+    0 0 80px rgba(232, 176, 75, 0.08);
+}
+
+.bulb {
+  position: absolute;
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: var(--gold-bright);
+  box-shadow: 0 0 6px 2px rgba(246, 207, 122, 0.5);
+  animation: bulb-twinkle 1.6s infinite;
+}
+@keyframes bulb-twinkle {
+  0%, 100% { opacity: 0.35; box-shadow: 0 0 4px 1px rgba(246, 207, 122, 0.25); }
+  50% { opacity: 1; box-shadow: 0 0 10px 4px rgba(246, 207, 122, 0.7); }
+}
+
+.marquee-eyebrow {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--gold-bright);
+  margin: 0 0 0.8rem;
+}
+
+.marquee-title {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: clamp(2.6rem, 8vw, 5.2rem);
+  line-height: 1.02;
+  margin: 0;
+  color: var(--cream);
+  text-shadow: 0 0 30px rgba(232, 176, 75, 0.25);
+}
+
+.marquee-sub {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-weight: 500;
+  font-size: clamp(1rem, 2vw, 1.25rem);
+  color: var(--gold-bright);
+  margin: 1rem 0 0;
+  opacity: 0.9;
+}
+
+/* ---------- Pitch / CTA ---------- */
+.pitch {
+  margin-top: 6vh;
+  max-width: 46rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.6rem;
+}
+
+.pitch-line {
+  font-size: clamp(1rem, 1.6vw, 1.2rem);
+  line-height: 1.6;
+  color: rgba(243, 229, 201, 0.9);
+}
+
+.ticket-clip {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--night-deep);
+  display: inline-block;
+}
+
+/* ---------- Filmstrip ---------- */
+.filmstrip {
+  margin-top: 8vh;
+  width: 100%;
+  max-width: 60rem;
+  height: 34px;
+  overflow: hidden;
+  border-radius: 6px;
+  background: #0d0810;
+}
+
+.filmstrip-track {
+  width: 200%;
+  height: 100%;
+  background-image: radial-gradient(circle, var(--gold) 0 4px, transparent 5px);
+  background-size: 44px 34px;
+  background-repeat: repeat-x;
+  background-position: 10px 50%, 32px 50%;
+  opacity: 0.55;
+  animation: reel-scroll 14s linear infinite;
+}
+
+@keyframes reel-scroll {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+
+@media (max-width: 640px) {
+  .curtain { width: 18px; }
+}

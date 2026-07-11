@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <%- include('partials/head') %>
+  <link rel="stylesheet" href="/css/landing.css" />
+</head>
+<body class="theater">
+  <canvas id="theater-bg" aria-hidden="true"></canvas>
+  <canvas id="mouse-trail" aria-hidden="true"></canvas>
+
+  <div class="curtain curtain-left" aria-hidden="true"></div>
+  <div class="curtain curtain-right" aria-hidden="true"></div>
+  <div class="curtain-valance" aria-hidden="true"></div>
+
+  <%- include('partials/nav') %>
+
+  <main class="lobby">
+    <section class="marquee-wrap" id="marquee">
+      <div class="marquee">
+        <p class="marquee-eyebrow">Now Showing &mdash; Every Night We're Together</p>
+        <h1 class="marquee-title">Family<br />Movie Night</h1>
+        <p class="marquee-sub">Our own little theater on the internet. Grab a seat.</p>
+      </div>
+    </section>
+
+    <section class="pitch">
+      <p class="pitch-line">
+        This is the lobby for our Discord. Sign in to see who's here, catch up on the wall,
+        and leave your mark before the lights go down.
+      </p>
+      <a href="/signin" class="btn btn-ticket btn-large">
+        <span class="ticket-clip" aria-hidden="true"></span>
+        Step Inside
+      </a>
+    </section>
+
+    <section class="filmstrip" aria-hidden="true">
+      <div class="filmstrip-track"></div>
+    </section>
+  </main>
+
+  <script src="/js/theater-bg.js"></script>
+  <script src="/js/mouse-trail.js"></script>
+  <script src="/js/marquee.js"></script>
+</body>
+</html>

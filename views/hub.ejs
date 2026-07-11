@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <%- include('partials/head') %>
+  <link rel="stylesheet" href="/css/landing.css" />
+</head>
+<body class="theater">
+  <canvas id="theater-bg" aria-hidden="true"></canvas>
+  <canvas id="mouse-trail" aria-hidden="true"></canvas>
+  <div class="curtain curtain-left" aria-hidden="true"></div>
+  <div class="curtain curtain-right" aria-hidden="true"></div>
+  <div class="curtain-valance" aria-hidden="true"></div>
+
+  <%- include('partials/nav') %>
+
+  <main class="lobby">
+    <section class="pitch" style="margin-top: 14vh;">
+      <p class="pitch-line">
+        You're in, <%= user.username %>. The member list and the live wall are next up on the build.
+      </p>
+    </section>
+  </main>
+
+  <script src="/js/theater-bg.js"></script>
+  <script src="/js/mouse-trail.js"></script>
+</body>
+</html>
