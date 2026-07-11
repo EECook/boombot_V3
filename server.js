@@ -1,5 +1,7 @@
 require('dotenv').config();
 const express = require('express');
+const http = require('http');
+const { Server } = require('socket.io');
 const session = require('express-session');
 const MySQLStore = require('express-mysql-session')(session);
 const path = require('path');
@@ -7,8 +9,13 @@ const path = require('path');
 const { loadUser } = require('./src/middleware/auth');
 const authRoutes = require('./src/routes/auth');
 const pageRoutes = require('./src/routes/pages');
+const hubRoutes = require('./src/routes/hub');
+const profileRoutes = require('./src/routes/profile');
 
 const app = express();
+const httpServer = http.createServer(app);
+const io = new Server(httpServer);
+app.set('io', io);
 
 // Railway (and most PaaS) terminate HTTPS at a proxy and forward plain HTTP
 // to the container - without this, Express can't tell the connection is
@@ -32,6 +39,8 @@ app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
 
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
 
 app.use(
   session({
@@ -51,6 +60,8 @@ app.use(
 app.use(loadUser);
 
 app.use('/auth', authRoutes);
+app.use('/', hubRoutes);
+app.use('/', profileRoutes);
 app.use('/', pageRoutes);
 
 app.use((req, res) => {
@@ -58,4 +69,4 @@ app.use((req, res) => {
 });
 
 const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => console.log(`Boombot V3 running on port ${PORT}`));
+httpServer.listen(PORT, () => console.log(`Boombot V3 running on port ${PORT}`));
