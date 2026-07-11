@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <%- include('partials/head') %>
+  <link rel="stylesheet" href="/css/landing.css" />
+  <link rel="stylesheet" href="/css/feed.css" />
+  <link rel="stylesheet" href="/css/profile.css" />
+</head>
+<body class="theater">
+  <canvas id="theater-bg" aria-hidden="true"></canvas>
+  <canvas id="mouse-trail" aria-hidden="true"></canvas>
+  <div class="curtain curtain-left" aria-hidden="true"></div>
+  <div class="curtain curtain-right" aria-hidden="true"></div>
+  <div class="curtain-valance" aria-hidden="true"></div>
+
+  <%- include('partials/nav') %>
+
+  <main class="hub-layout">
+    <aside class="profile-card">
+      <img src="<%= profileUser.avatarUrl %>" alt="" class="profile-avatar" />
+      <h1 class="profile-name"><%= profileUser.username %></h1>
+      <% if (profile.pronouns) { %><p class="profile-pronouns"><%= profile.pronouns %></p><% } %>
+
+      <dl class="profile-facts">
+        <% if (profile.age) { %><div><dt>Age</dt><dd><%= profile.age %></dd></div><% } %>
+        <% if (profile.birthday) { %><div><dt>Birthday</dt><dd><%= new Date(profile.birthday).toLocaleDateString(undefined, { month: 'long', day: 'numeric' }) %></dd></div><% } %>
+        <% if (profile.timezone) { %><div><dt>Timezone</dt><dd><%= profile.timezone %></dd></div><% } %>
+      </dl>
+
+      <% if (profile.bio) { %><p class="profile-bio"><%= profile.bio %></p><% } %>
+
+      <% if (links.length > 0) { %>
+        <ul class="profile-links">
+          <% links.forEach(function(link) { %>
+            <li><a href="<%= link.url %>" target="_blank" rel="noopener noreferrer"><%= link.platform %></a></li>
+          <% }); %>
+        </ul>
+      <% } %>
+
+      <% if (isOwnProfile) { %>
+        <a href="/profile/edit" class="btn btn-ticket btn-small">Edit Profile</a>
+      <% } %>
+    </aside>
+
+    <section class="feed-panel">
+      <h2 class="panel-title"><%= isOwnProfile ? 'Your Wall' : profileUser.username + "'s Wall" %></h2>
+
+      <form class="composer" id="feed-composer">
+        <textarea name="body" placeholder="<%= isOwnProfile ? 'Write on your own wall...' : 'Write something on ' + profileUser.username + '\'s wall...' %>" maxlength="2000" required></textarea>
+        <button type="submit" class="btn btn-ticket btn-small">Post</button>
+      </form>
+
+      <div class="post-list" id="feed-post-list">
+        <% wallPosts.forEach(function(post) { %>
+          <%- include('partials/post-card', { post: post }) %>
+        <% }); %>
+        <% if (wallPosts.length === 0) { %>
+          <p class="feed-empty">Nothing here yet &mdash; be the first to write something.</p>
+        <% } %>
+      </div>
+    </section>
+  </main>
+
+  <script src="/socket.io/socket.io.js"></script>
+  <script src="/js/theater-bg.js"></script>
+  <script src="/js/mouse-trail.js"></script>
+  <script>window.BOOMBOT_CONTEXT = { wallUserId: <%= profileUser.id %> };</script>
+  <script src="/js/feed.js"></script>
+</body>
+</html>

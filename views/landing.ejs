@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <%- include('partials/head') %>
+  <link rel="stylesheet" href="/css/landing.css" />
+  <link rel="stylesheet" href="/css/feed.css" />
+  <link rel="stylesheet" href="/css/cast.css" />
+</head>
+<body class="theater">
+  <canvas id="theater-bg" aria-hidden="true"></canvas>
+  <canvas id="mouse-trail" aria-hidden="true"></canvas>
+
+  <div class="curtain curtain-left" aria-hidden="true"></div>
+  <div class="curtain curtain-right" aria-hidden="true"></div>
+  <div class="curtain-valance" aria-hidden="true"></div>
+
+  <%- include('partials/nav') %>
+
+  <div class="decor" aria-hidden="true">
+    <svg class="decor-item" style="top: 18%; left: 8%; width: 54px; height: 54px; animation-duration: 19s;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="2.4"/><circle cx="12" cy="6" r="1.4"/><circle cx="17" cy="9.5" r="1.4"/><circle cx="17" cy="14.5" r="1.4"/><circle cx="12" cy="18" r="1.4"/><circle cx="7" cy="14.5" r="1.4"/><circle cx="7" cy="9.5" r="1.4"/></svg>
+    <svg class="decor-item teal" style="top: 62%; left: 6%; width: 40px; height: 40px; animation-duration: 15s; animation-delay: -4s;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3"><path d="M4 8l1-4h14l1 4-2 12H6L4 8z"/><path d="M8 8v12M12 8v12M16 8v12"/></svg>
+    <svg class="decor-item" style="top: 74%; right: 6%; width: 46px; height: 46px; animation-duration: 21s; animation-delay: -9s;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3"><path d="M3 9a2 2 0 100 4 2 2 0 010 4h18a2 2 0 010-4 2 2 0 100-4 2 2 0 000-4H3a2 2 0 000 4z"/><path d="M9 5v3M9 11v2M9 16v3"/></svg>
+    <svg class="decor-item teal" style="top: 30%; right: 9%; width: 34px; height: 34px; animation-duration: 17s; animation-delay: -2s;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="2.4"/><circle cx="12" cy="6" r="1.4"/><circle cx="17" cy="9.5" r="1.4"/><circle cx="17" cy="14.5" r="1.4"/><circle cx="12" cy="18" r="1.4"/><circle cx="7" cy="14.5" r="1.4"/><circle cx="7" cy="9.5" r="1.4"/></svg>
+  </div>
+
+  <main class="lobby">
+    <section class="marquee-wrap" id="marquee">
+      <div class="marquee" id="marquee-card">
+        <div class="marquee-canopy" aria-hidden="true"></div>
+        <p class="marquee-eyebrow">Now Screening For Our Server</p>
+        <h1 class="marquee-title">Family<br />Movie Night</h1>
+      </div>
+    </section>
+
+    <section class="pitch">
+      <% if (!isAuthenticated) { %>
+        <a href="/signin" class="btn btn-ticket btn-large">
+          <span class="ticket-clip" aria-hidden="true"></span>
+          Step Inside
+        </a>
+      <% } %>
+    </section>
+
+    <% if (typeof loadError !== 'undefined' && loadError) { %>
+      <p class="ticket-error" style="margin: 2rem auto; max-width: 40rem;"><%= loadError %></p>
+    <% } %>
+
+    <section class="cast-section">
+      <h2 class="panel-title panel-title-center"><span class="title-reel" aria-hidden="true"></span>The Cast</h2>
+      <div class="cast-grid">
+        <% roster.forEach(function(member, i) { %>
+          <a href="/profile/<%= member.discordId %>" class="cast-card <%= i % 2 === 0 ? 'tilt-left' : 'tilt-right' %>">
+            <span class="cast-pin" aria-hidden="true"></span>
+            <div class="cast-photo-frame">
+              <img src="<%= member.avatarUrl %>" alt="" class="cast-photo" />
+            </div>
+            <span class="cast-name"><%= member.username %></span>
+            <% if (member.pronouns) { %><span class="cast-pronouns"><%= member.pronouns %></span><% } %>
+            <% if (member.bio) { %><p class="cast-bio"><%= member.bio %></p><% } %>
+            <% if (member.links && member.links.length > 0) { %>
+              <div class="cast-links">
+                <% member.links.slice(0, 3).forEach(function(link) { %>
+                  <span class="cast-link-chip"><%= link.platform %></span>
+                <% }); %>
+              </div>
+            <% } %>
+          </a>
+        <% }); %>
+      </div>
+    </section>
+
+    <section class="feed-panel feed-panel-landing">
+      <h2 class="panel-title"><span class="title-reel" aria-hidden="true"></span>The Wall</h2>
+
+      <% if (isAuthenticated) { %>
+        <form class="composer" id="feed-composer">
+          <textarea name="body" placeholder="What's showing tonight?" maxlength="2000" required></textarea>
+          <button type="submit" class="btn btn-ticket btn-small">Post</button>
+        </form>
+      <% } else { %>
+        <a href="/signin" class="composer composer-locked">
+          <span>Sign in to post on the wall</span>
+        </a>
+      <% } %>
+
+      <div class="post-list" id="feed-post-list">
+        <% feedPosts.forEach(function(post) { %>
+          <%- include('partials/post-card', { post: post, canInteract: isAuthenticated }) %>
+        <% }); %>
+        <% if (feedPosts.length === 0) { %>
+          <p class="feed-empty">Nobody's posted yet &mdash; be the first.</p>
+        <% } %>
+      </div>
+    </section>
+
+    <section class="filmstrip" aria-hidden="true">
+      <div class="filmstrip-track"></div>
+    </section>
+  </main>
+
+  <script src="/socket.io/socket.io.js"></script>
+  <script src="/js/theater-bg.js"></script>
+  <script src="/js/mouse-trail.js"></script>
+  <script src="/js/marquee.js"></script>
+  <script src="/js/marquee-tilt.js"></script>
+  <script>window.BOOMBOT_CONTEXT = { wallUserId: null, authenticated: <%= isAuthenticated ? 'true' : 'false' %> };</script>
+  <script src="/js/feed.js"></script>
+</body>
+</html>

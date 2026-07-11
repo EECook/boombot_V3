@@ -1,0 +1,129 @@
+.booth {
+  position: relative;
+  z-index: 10;
+  min-height: calc(100vh - 6rem);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4vh clamp(1.5rem, 6vw, 4rem);
+}
+
+.ticket-card {
+  position: relative;
+  width: min(420px, 100%);
+  background: linear-gradient(180deg, #241732, #180f22);
+  border: 2px solid var(--gold);
+  border-radius: 16px;
+  padding: clamp(2rem, 5vw, 2.6rem) clamp(1.8rem, 5vw, 2.4rem);
+  box-shadow: 0 24px 70px rgba(0,0,0,0.55), 0 0 60px rgba(232,176,75,0.08);
+  text-align: center;
+}
+
+.ticket-perf {
+  position: absolute;
+  left: -1px;
+  right: -1px;
+  top: 122px;
+  height: 0;
+  border-top: 2px dashed rgba(232, 176, 75, 0.5);
+}
+.ticket-perf::before,
+.ticket-perf::after {
+  content: '';
+  position: absolute;
+  top: -11px;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: var(--night);
+  box-shadow: 0 0 0 2px var(--gold);
+}
+.ticket-perf::before { left: -12px; }
+.ticket-perf::after { right: -12px; }
+
+.ticket-eyebrow {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--gold-bright);
+  margin: 0 0 0.4rem;
+}
+
+.ticket-title {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: clamp(1.6rem, 5vw, 2.1rem);
+  margin: 0 0 0.5rem;
+}
+
+.ticket-sub {
+  font-size: 0.95rem;
+  color: rgba(243, 229, 201, 0.75);
+  margin: 0 0 1.8rem;
+}
+
+.ticket-error {
+  background: rgba(110, 30, 43, 0.4);
+  border: 1px solid var(--velvet);
+  border-radius: 8px;
+  padding: 0.7rem 1rem;
+  font-size: 0.88rem;
+  color: var(--cream);
+  margin-bottom: 1.4rem;
+}
+
+.divider {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  margin: 1.8rem 0 1.4rem;
+  color: rgba(243, 229, 201, 0.5);
+  font-size: 0.8rem;
+  font-family: var(--font-mono);
+}
+.divider::before,
+.divider::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: rgba(243, 229, 201, 0.2);
+}
+
+.code-form { text-align: left; }
+
+.code-label {
+  display: block;
+  font-size: 0.82rem;
+  color: rgba(243, 229, 201, 0.75);
+  margin-bottom: 0.6rem;
+  line-height: 1.4;
+}
+.code-label code {
+  font-family: var(--font-mono);
+  background: rgba(232, 176, 75, 0.15);
+  padding: 0.1rem 0.4rem;
+  border-radius: 4px;
+  color: var(--gold-bright);
+}
+
+.code-row { display: flex; gap: 0.6rem; }
+
+.code-row input {
+  flex: 1;
+  min-width: 0;
+  font-family: var(--font-mono);
+  letter-spacing: 0.1em;
+  background: rgba(0,0,0,0.25);
+  border: 1px solid rgba(232, 176, 75, 0.35);
+  border-radius: 8px;
+  padding: 0.7rem 0.9rem;
+  color: var(--cream);
+  font-size: 0.95rem;
+}
+.code-row input:focus {
+  outline: none;
+  border-color: var(--gold);
+  box-shadow: 0 0 0 3px rgba(232, 176, 75, 0.2);
+}
+.code-row input::placeholder { color: rgba(243, 229, 201, 0.35); }
