@@ -1,0 +1,40 @@
+<article class="post-card" data-post-id="<%= post.id %>">
+  <div class="post-head">
+    <img src="<%= post.author.avatarUrl %>" alt="" class="post-avatar" />
+    <div>
+      <a href="/profile/<%= post.author.discordId %>" class="post-author"><%= post.author.username %></a>
+      <time class="post-time" data-iso="<%= post.createdAt %>"><%= new Date(post.createdAt).toLocaleString() %></time>
+    </div>
+  </div>
+
+  <p class="post-body"><%= post.body %></p>
+
+  <div class="post-actions">
+    <button
+      class="reaction-btn <%= post.viewerReacted ? 'active' : '' %>"
+      data-post-id="<%= post.id %>"
+      aria-pressed="<%= post.viewerReacted %>"
+    >
+      <span class="reaction-heart">&#10084;</span>
+      <span class="reaction-count"><%= post.reactionCount %></span>
+    </button>
+    <button class="comment-toggle-btn" data-post-id="<%= post.id %>">
+      <%= post.commentCount %> comment<%= post.commentCount === 1 ? '' : 's' %>
+    </button>
+  </div>
+
+  <div class="post-comments">
+    <div class="comment-list">
+      <% post.comments.forEach(function(comment) { %>
+        <div class="comment">
+          <a href="/profile/<%= comment.author.discordId %>" class="comment-author"><%= comment.author.username %></a>
+          <span class="comment-body"><%= comment.body %></span>
+        </div>
+      <% }); %>
+    </div>
+    <form class="comment-form" data-post-id="<%= post.id %>">
+      <input type="text" name="body" placeholder="Write a comment&hellip;" maxlength="1000" required />
+      <button type="submit" class="btn btn-ticket btn-small">Post</button>
+    </form>
+  </div>
+</article>
