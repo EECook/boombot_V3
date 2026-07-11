@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <%- include('partials/head') %>
+  <link rel="stylesheet" href="/css/landing.css" />
+  <link rel="stylesheet" href="/css/feed.css" />
+</head>
+<body class="theater">
+  <canvas id="theater-bg" aria-hidden="true"></canvas>
+  <canvas id="mouse-trail" aria-hidden="true"></canvas>
+  <div class="curtain curtain-left" aria-hidden="true"></div>
+  <div class="curtain curtain-right" aria-hidden="true"></div>
+  <div class="curtain-valance" aria-hidden="true"></div>
+
+  <%- include('partials/nav') %>
+
+  <main class="hub-layout hub-layout-solo">
+    <% if (typeof loadError !== 'undefined' && loadError) { %>
+      <p class="ticket-error" style="margin: 2rem auto; max-width: 40rem;"><%= loadError %></p>
+    <% } %>
+
+    <section class="feed-panel">
+      <h2 class="panel-title"><span class="title-reel" aria-hidden="true"></span>The Wall</h2>
+
+      <form class="composer" id="feed-composer">
+        <textarea name="body" placeholder="What's showing tonight?" maxlength="2000" required></textarea>
+        <input type="url" name="mediaUrl" class="composer-media-input" placeholder="Paste an image link (optional)" />
+        <button type="submit" class="btn btn-ticket btn-small">Post</button>
+      </form>
+
+      <div class="post-list" id="feed-post-list">
+        <% feedPosts.forEach(function(post) { %>
+          <%- include('partials/post-card', { post: post, canInteract: true, viewerId: user.id, viewerIsAdmin: !!user.is_admin }) %>
+        <% }); %>
+        <% if (feedPosts.length === 0) { %>
+          <p class="feed-empty">Nobody's posted yet &mdash; be the first.</p>
+        <% } %>
+      </div>
+    </section>
+  </main>
+
+  <script src="/socket.io/socket.io.js"></script>
+  <script src="/js/theater-bg.js"></script>
+  <script src="/js/mouse-trail.js"></script>
+  <script>window.BOOMBOT_CONTEXT = { wallUserId: null, authenticated: true, userId: <%= user.id %>, isAdmin: <%= !!user.is_admin %> };</script>
+  <script src="/js/feed.js"></script>
+</body>
+</html>

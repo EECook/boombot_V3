@@ -1,0 +1,21 @@
+<nav class="site-nav">
+  <a href="/" class="brand">
+    <span class="brand-mark">🎞️</span>
+    <span class="brand-text">Family Movie Night</span>
+  </a>
+  <div class="nav-actions">
+    <% if (typeof user !== 'undefined' && user) { %>
+      <a href="/hub" class="nav-link">The Hub</a>
+      <a href="/profile/<%= user.discord_id %>" class="nav-link">My Profile</a>
+      <div class="nav-user">
+        <img src="<%= user.avatarUrl %>" alt="" class="nav-avatar" />
+        <span><%= user.username %></span>
+      </div>
+      <form action="/auth/logout" method="POST" class="inline-form">
+        <button type="submit" class="btn btn-ghost btn-small">Sign out</button>
+      </form>
+    <% } else { %>
+      <a href="/signin" class="btn btn-ticket btn-small">Sign In</a>
+    <% } %>
+  </div>
+</nav>
