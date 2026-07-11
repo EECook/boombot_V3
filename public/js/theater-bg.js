@@ -45,15 +45,24 @@
     ctx.fillStyle = grad;
     ctx.fillRect(0, 0, w, h);
 
-    // Slow projector beam sweep
+    // Two slow, crossing projector beams - gold from the left, teal from the right
     if (!reduceMotion) {
-      const bx = w / 2 + Math.sin(t * 0.00025) * w * 0.3;
-      const by = -h * 0.1;
-      const beamGrad = ctx.createRadialGradient(bx, by, 0, bx, by, h * 0.9);
-      beamGrad.addColorStop(0, 'rgba(232, 176, 75, 0.05)');
-      beamGrad.addColorStop(0.5, 'rgba(232, 176, 75, 0.02)');
-      beamGrad.addColorStop(1, 'rgba(232, 176, 75, 0)');
-      ctx.fillStyle = beamGrad;
+      const bx1 = w * 0.3 + Math.sin(t * 0.00025) * w * 0.22;
+      const by1 = -h * 0.08;
+      const beam1 = ctx.createRadialGradient(bx1, by1, 0, bx1, by1, h * 0.95);
+      beam1.addColorStop(0, 'rgba(232, 176, 75, 0.09)');
+      beam1.addColorStop(0.5, 'rgba(232, 176, 75, 0.03)');
+      beam1.addColorStop(1, 'rgba(232, 176, 75, 0)');
+      ctx.fillStyle = beam1;
+      ctx.fillRect(0, 0, w, h);
+
+      const bx2 = w * 0.7 + Math.cos(t * 0.00018) * w * 0.22;
+      const by2 = -h * 0.05;
+      const beam2 = ctx.createRadialGradient(bx2, by2, 0, bx2, by2, h * 0.8);
+      beam2.addColorStop(0, 'rgba(62, 110, 107, 0.08)');
+      beam2.addColorStop(0.5, 'rgba(62, 110, 107, 0.03)');
+      beam2.addColorStop(1, 'rgba(62, 110, 107, 0)');
+      ctx.fillStyle = beam2;
       ctx.fillRect(0, 0, w, h);
     }
 
